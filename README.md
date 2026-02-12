@@ -145,7 +145,7 @@ mason make feature --feature_name user_profile --output-dir lib/features --on-co
 {feature_name}/
 ├── data/
 │   └── repositories/
-│       └── {feature_name}_repository_implementation.dart
+│       └── {feature_name}_repository_impl.dart
 ├── domain/
 │   └── repositories/
 │       └── {feature_name}_repository.dart
@@ -164,11 +164,11 @@ mason make feature --feature_name user_profile --output-dir lib/features --on-co
 abstract class UserProfileRepository {}
 ```
 
-**`data/repositories/{feature_name}_repository_implementation.dart`**
+**`data/repositories/{feature_name}_repository_impl.dart`**
 ```dart
 import '../../domain/repositories/user_profile_repository.dart';
 
-class UserProfileRepositoryImplementation
+class UserProfileRepositoryImpl
     implements UserProfileRepository {}
 ```
 
