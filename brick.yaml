@@ -17,6 +17,6 @@ vars:
     prompt: What is the package name?
   feature_path:
     type: string
-    description: The path under lib/features/ (e.g. customer, business)
-    default: customer
-    prompt: What is the user type path? (e.g. customer, business)
+    description: The path under lib/features/ (e.g. customer, business). Leave empty for no nesting.
+    default: ""
+    prompt: What is the user type path? (leave empty for none)
