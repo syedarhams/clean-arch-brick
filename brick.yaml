@@ -1,6 +1,6 @@
 name: feature
 description: Generates a Clean Architecture feature with Cubit, Equatable state, abstract repository, repository implementation, views, and widgets folders.
-version: 0.1.0
+version: 0.2.0
 
 environment:
   mason: ">=0.1.0 <1.0.0"
@@ -10,13 +10,3 @@ vars:
     type: string
     description: The name of the feature (e.g. user_profile, order_management)
     prompt: What is the feature name?
-  package_name:
-    type: string
-    description: The package name from pubspec.yaml (e.g. muebly)
-    default: muebly
-    prompt: What is the package name?
-  feature_path:
-    type: string
-    description: The path under lib/features/ (e.g. customer, business). Leave empty for no nesting.
-    default: ""
-    prompt: What is the user type path? (leave empty for none)

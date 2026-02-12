@@ -85,80 +85,37 @@ Since this is a **private** repository, teammates must be added as collaborators
 
 ### Interactive Mode
 
-Run the command and answer the prompts:
+Run the command and it will prompt you for the feature name:
 
 ```bash
 mason make feature --output-dir lib/features
 ```
 
-It will ask you for:
-1. Feature name (e.g. `user_profile`)
-2. Package name (defaults to `muebly`)
-3. User type path (leave empty for none, or enter `customer`, `business`, etc.)
-
 ### Inline Mode (no prompts)
 
-Pass all variables directly:
-
 ```bash
-mason make feature \
-  --feature_name user_profile \
-  --package_name muebly \
-  --feature_path customer \
-  --output-dir lib/features/customer
+mason make feature --feature_name user_profile --output-dir lib/features
 ```
 
 ### Examples
 
-**Directly in features/ (no user type nesting):**
+**Feature directly in `lib/features/`:**
 
 ```bash
-mason make feature \
-  --feature_name user_profile \
-  --package_name muebly \
-  --feature_path "" \
-  --output-dir lib/features
+mason make feature --feature_name user_profile --output-dir lib/features
 ```
 
-Generates `lib/features/user_profile/` with imports like:
-```dart
-import 'package:muebly/features/user_profile/domain/repositories/...';
-```
-
-**Under a user type (customer):**
+**Feature nested under a user type:**
 
 ```bash
-mason make feature \
-  --feature_name order_management \
-  --package_name muebly \
-  --feature_path customer \
-  --output-dir lib/features/customer
+mason make feature --feature_name order_management --output-dir lib/features/customer
 ```
-
-Generates `lib/features/customer/order_management/` with imports like:
-```dart
-import 'package:muebly/features/customer/order_management/domain/repositories/...';
-```
-
-**Under a user type (business):**
 
 ```bash
-mason make feature \
-  --feature_name store_management \
-  --package_name muebly \
-  --feature_path business \
-  --output-dir lib/features/business
+mason make feature --feature_name store_management --output-dir lib/features/business
 ```
 
-**Different project:**
-
-```bash
-mason make feature \
-  --feature_name checkout \
-  --package_name my_other_app \
-  --feature_path "" \
-  --output-dir lib/features
-```
+The `--output-dir` flag controls where the feature folder is placed. The generated files use relative imports, so they work regardless of where you put them.
 
 ### Conflict Handling
 
@@ -166,21 +123,19 @@ If files already exist, Mason will ask how to handle them. You can also pass a f
 
 ```bash
 # Skip existing files
-mason make feature --output-dir lib/features --on-conflict skip
+mason make feature --feature_name user_profile --output-dir lib/features --on-conflict skip
 
 # Overwrite existing files
-mason make feature --output-dir lib/features --on-conflict overwrite
+mason make feature --feature_name user_profile --output-dir lib/features --on-conflict overwrite
 ```
 
 ---
 
 ## Variables
 
-| Variable | Description | Default | Example |
-|----------|-------------|---------|---------|
-| `feature_name` | The name of the feature in snake_case | — | `user_profile` |
-| `package_name` | The package name from `pubspec.yaml` | `muebly` | `my_app` |
-| `feature_path` | Path under `lib/features/` (e.g. `customer`, `business`). Leave empty for no nesting. | `""` (empty) | `customer` |
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `feature_name` | The name of the feature in snake_case | `user_profile` |
 
 ---
 
@@ -211,7 +166,7 @@ abstract class UserProfileRepository {}
 
 **`data/repositories/{feature_name}_repository_implementation.dart`**
 ```dart
-import 'package:muebly/features/user_profile/domain/repositories/user_profile_repository.dart';
+import '../../domain/repositories/user_profile_repository.dart';
 
 class UserProfileRepositoryImplementation
     implements UserProfileRepository {}
@@ -231,9 +186,9 @@ class UserProfileState extends Equatable {
 
 **`presentation/cubit/cubit.dart`**
 ```dart
-import 'package:muebly/exports.dart';
-import 'package:muebly/features/user_profile/domain/repositories/user_profile_repository.dart';
-import 'package:muebly/features/user_profile/presentation/cubit/state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/repositories/user_profile_repository.dart';
+import 'state.dart';
 
 class UserProfileCubit extends Cubit<UserProfileState> {
   UserProfileCubit({
