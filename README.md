@@ -117,6 +117,26 @@ mason make feature --feature_name store_management --output-dir lib/features/bus
 
 The `--output-dir` flag controls where the feature folder is placed. The generated files use relative imports, so they work regardless of where you put them.
 
+### Auto-Registration in `app_page.dart`
+
+After generating a feature, the brick's **post-generation hook** automatically:
+
+1. Finds your project's `app_page.dart` at `lib/app/view/app_page.dart`
+2. Reads the package name from `pubspec.yaml`
+3. Adds the required imports (cubit + repository implementation)
+4. Inserts a `BlocProvider` entry into the `MultiBlocProvider` providers list
+5. Runs `dart format` on the file
+
+**Requirements:**
+- Your project must have `lib/app/view/app_page.dart` with a `MultiBlocProvider`
+- The `--output-dir` must be inside `lib/` (e.g., `lib/features/customer`)
+- If the cubit is already registered, it will be skipped (no duplicates)
+
+To disable hooks during generation:
+```bash
+mason make feature --feature_name user_profile --output-dir lib/features --no-hooks
+```
+
 ### Conflict Handling
 
 If files already exist, Mason will ask how to handle them. You can also pass a flag:
